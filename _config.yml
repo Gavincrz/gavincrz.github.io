@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: Gavin's Blog
+subtitle: 'No Subtitle'
+description: 'No Description'
 keywords:
-author: John Doe
+author: Gavin Cui
 language: en
-timezone: ''
+timezone: 'America/Toronto'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://gavincrz.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -102,4 +102,6 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git@github.com:Gavincrz/gavincrz.github.io.git
+  branch: master
