@@ -36,3 +36,7 @@ $ hexo deploy
 ```
 
 More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+
+## Other notes:
+Source Code Branch: `source`  
+Deploy Branch: `Master` 
