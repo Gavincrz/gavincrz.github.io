@@ -37,6 +37,16 @@ $ hexo deploy
 
 More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
 
-## Other notes:
+
+
+### Clone Notes:
 Source Code Branch: `source`  
 Deploy Branch: `Master` 
+
+``` bash
+git clone -b source git@github.com:Gavincrz/gavincrz.github.io.git
+cd gavincrz.github.io
+npm install
+```
+
+
