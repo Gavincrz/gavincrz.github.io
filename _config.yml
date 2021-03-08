@@ -13,7 +13,7 @@ timezone: 'America/Toronto'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://gavincrz.github.io/
+url: https://gavincrz.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -40,10 +40,11 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
-marked:
-  prependRoot: true
-  postAsset: true
+# post_asset_folder: true
+# marked:
+#   root: /hello
+#   prependRoot: true
+#   postAsset: true
 relative_link: false
 future: true
 highlight:

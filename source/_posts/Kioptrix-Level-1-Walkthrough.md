@@ -27,7 +27,7 @@ netdiscover -i eth0
 ```
 -i device: your network device (interface)  
 
-{% asset_img  kioptrix_walkthrough_netdiscover.png %}
+![](/images/netdiscover.png "screenshot of netdiscover")
 
 So the target IP address is `192.168.119.254`
 
