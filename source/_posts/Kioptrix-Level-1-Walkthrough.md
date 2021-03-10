@@ -290,3 +290,65 @@ Tried some exploits, https://www.exploit-db.com/exploits/22469 this one works an
 ```
 
 ![image](/images/kioptrix1_root.png "screenshot of dirbuster")
+
+
+### Nbtscan
+```
+nbtscan 192.168.0.22
+Doing NBT name scan for addresses from 192.168.0.22
+
+IP address       NetBIOS Name     Server    User             MAC address      
+------------------------------------------------------------------------------
+192.168.0.22     KIOPTRIX         <server>  KIOPTRIX         00:00:00:00:00:00
+
+```
+Resolve the host name
+
+NetBIOS over TCP/IP (NBT, or sometimes NetBT) is a networking protocol that allows legacy computer applications relying on the NetBIOS API to be used on modern TCP/IP networks. 
+
+On Windows, SMB can run directly over TCP/IP without the need for NetBIOS over TCP/IP. This will use, as you point out, port 445.
+
+Generally speaking, on other systems, you'll find services and applications using port 139. This, basically speaking, means that SMB is running with NetBIOS over TCP/IP, where, stack-wise, SMB is on top of NetBIOS if you are to imagine it with the OSI model.
+
+SMB does rely on NetBIOS for communication with devices that do not support direct hosting of SMB over TCP/IP.
+
+NetBIOS is completely independent from SMB. It is an API that SMB, and other technologies can use, so NetBIOS has no dependency to SMB. 
+
+https://superuser.com/questions/694469/difference-between-netbios-and-smb
+
+
+### smbclient
+```
+smbclient -L 192.168.0.22
+Enter WORKGROUP\root's password: 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        IPC$            IPC       IPC Service (Samba Server)
+        ADMIN$          IPC       IPC Service (Samba Server)
+Reconnecting with SMB1 for workgroup listing.
+Server does not support EXTENDED_SECURITY  but 'client use spnego = yes' and 'client ntlmv2 auth = yes' is set
+Anonymous login successful
+
+        Server               Comment
+        ---------            -------
+        KIOPTRIX             Samba Server
+
+        Workgroup            Master
+        ---------            -------
+        HIRON                INTEL_CE_LINUX
+        MYGROUP              KIOPTRIX
+                                      
+```
+-L, --list=HOST
+
+```
+smbclient "\\\192.168.0.22\IPC$"
+```
+see Not enough '\' characters in service, just add more backslashes
+
+## Notes
+could also try nmap with smb scripts
+```
+nmap --script "smb-*" 192.168.0.22
+```
