@@ -1,7 +1,7 @@
 ---
 title: OSCP Study Notes - 2021/03/07
 date: 2021-03-07 14:04:11
-tags: [OSCP, Study Notes]
+tags: [OSCP, Study Notes, Penetration Testing]
 ---
 # TRY HARDER!!
 # Table of Contents:

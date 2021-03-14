@@ -1,7 +1,7 @@
 ---
 title: OSCP Study Notes - 2021/03/11
 date: 2021-03-11 22:22:05
-tags: [OSCP, Study Notes]
+tags: [OSCP, Study Notes, Penetration Testing]
 ---
 
 # Fuzzing

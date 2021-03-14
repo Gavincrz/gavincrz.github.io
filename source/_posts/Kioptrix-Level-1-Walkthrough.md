@@ -1,7 +1,7 @@
 ---
 title: Kioptrix Level 1 Walkthrough
 date: 2021-03-08 00:07:37
-tags: [WalkThrough, Vulnhub]
+tags: [WalkThrough, Vulnhub, Penetration Testing]
 ---
 
 # Find IP Address of target Box

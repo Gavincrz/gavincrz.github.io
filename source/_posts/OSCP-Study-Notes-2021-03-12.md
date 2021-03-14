@@ -1,7 +1,7 @@
 ---
 title: OSCP Study Notes - 2021/03/12
 date: 2021-03-12 13:22:27
-tags: [OSCP, Study Notes]
+tags: [OSCP, Study Notes, Penetration Testing]
 ---
 
 Vulnhub Box: [XSS & MySQL FILE](https://www.vulnhub.com/entry/pentester-lab-xss-and-mysql-file,66/)
