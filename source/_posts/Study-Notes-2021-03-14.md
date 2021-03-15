@@ -295,4 +295,20 @@ for ip in $(seq 50 100); do host x.x.x.$ip; done | grep -v "not found"
 top ports determined here: `/usr/share/nmap/nmap-services` 
 
 
+-O OS fingerprint scan  
+-sV determine service and version info  
 
+### Nmap scripting engine (NSE)
+## masscan 
+sudo apt install masscan
+
+
+# SMB Enumeration 
+port 139, 445  
+`nmap -v -p 139, 445 --script=smb-os-discovery 10.11.1.227`  
+`nmap -v -p 139,445 -oG smb.txt 10.11.1.1-254`  
+`sudo nbtscan -r 10.11.1.0/24`  
+
+
+# NFS Enumeration
+rpc-bind 107 
