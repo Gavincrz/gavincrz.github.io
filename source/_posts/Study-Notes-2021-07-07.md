@@ -91,7 +91,7 @@ scan local port will scan target host
 
 # SSH Dynamic port forwarding  
 ```
-ssh -N -D <address to bind to>:<port to bind to> <username>@<SSH server address>
+kali> ssh -N -D <address to bind to>:<port to bind to> <username>@<SSH server address>
 ```
 With the above syntax in mind, we can create a local SOCKS4 application proxy (-N -D) on our
 Kali Linux machine on TCP port 8080 (127.0.0.1:8080), which will tunnel all incoming traffic to

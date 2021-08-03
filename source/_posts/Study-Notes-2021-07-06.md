@@ -109,7 +109,7 @@ MD4(UTF-16-LE(password))
 
 Behind the scenes, the format of the NTLM hash we provided was changed into a NetNTLM
 version 1 or 2 format during the authentication process. We can capture these hashes using
-man-in-the-middle or poisoning attacks and either crack them581 or relay them
+man-in-the-middle or poisoning attacks and either crack them or relay them
 
 https://byt3bl33d3r.github.io/practical-guide-to-ntlm-relaying-in-2017-aka-getting-a-foothold-in-under-5-minutes.html  
 

