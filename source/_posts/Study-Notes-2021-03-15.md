@@ -83,7 +83,7 @@ https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project
 9. Using Components with Known Vulnerabilities
 10. Insufficient Logging & Monitoring
 
-## Web application Enueration
+## Web application Enumeration
 * Programming language and frameworks
 * Web server software
 * Database software

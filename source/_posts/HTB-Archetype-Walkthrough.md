@@ -1,7 +1,7 @@
 ---
 title: HTB - Archetype Walkthrough
 date: 2021-08-08 19:35:10
-tags: [WalkThrough, HTB, Penetration Testing]
+tags: [WalkThrough, HTB, Penetration Testing, Starting Point]
 ---
 
 # Enumeration
