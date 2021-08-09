@@ -4,7 +4,7 @@ date: 2021-08-09 14:52:15
 tags: [WalkThrough, HTB, Penetration Testing, Starting Point]
 ---
 
-# Enueration
+# Enumeration
 ## brief scan for open port
 ```
 nmap -p- --min-rate=1000 -T4 10.10.10.28 | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$// >> ports.txt
@@ -183,6 +183,9 @@ chmod +x cat
 
 
 then run `/usr/bin/bugtracker`, we gain the root shell
+
+
+
 
 ```
 # cat filezilla.xml
